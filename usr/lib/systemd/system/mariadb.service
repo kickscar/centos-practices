@@ -1,0 +1,28 @@
+[Unit]
+Description=MariaDB Database Server
+After=syslog.target
+After=network.target
+
+[Service]
+User=mysql
+Group=mysql
+
+KillMode=process
+KillSignal=SIGTERM
+SendSIGKILL=no
+
+LimitNOFILE=infinity
+LimitNPROC=4096
+LimitCORE=infinity
+PermissionsStartOnly=true
+PrivateTmp=true
+OOMScoreAdjust=-1000
+ExecStartPre=sync
+ExecStartPre=sysctl -q -w vm.drop_caches=3
+ExecStart=/usr/local/kickscar/mariadb/bin/mysqld --defaults-file=/usr/local/kickscar/mariadb/etc/my.cnf --plugin-dir=/usr/local/kickscar/mariadb/lib/plugin --pid-file=/usr/local/kickscar/mariadb/mysqld.pid
+Restart=always
+RestartSec=1
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target

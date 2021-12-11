@@ -1,0 +1,21 @@
+[Unit]
+Description=tomcat7
+After=network.target syslog.target
+
+[Service]
+Type=forking
+
+Environment=JAVA_HOME=/usr/local/kickscar/java
+Environment=CATALINA_HOME=/usr/local/kickscar/tomcat
+User=root
+Group=root
+
+ExecStart=/usr/local/kickscar/tomcat-kickscar/bin/startup.sh
+ExecStop=/usr/local/kickscar/tomcat-kickscar/bin/shutdown.sh
+
+UMask=0007
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
